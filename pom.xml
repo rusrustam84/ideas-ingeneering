@@ -17,6 +17,8 @@
 		<java.version>11</java.version>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.12</org.projectlombok.version>
+		<docker.image.prefix>rusrustam</docker.image.prefix>
+		<docker.image.name>${project.artifactId}</docker.image.name>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -78,6 +80,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<layers>
+						<enabled>true</enabled>
+						<includeLayerTools>true</includeLayerTools>
+					</layers>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -110,7 +116,33 @@
 					</compilerArgs>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.33.0</version>
+				<configuration>
+					<!--<dockerHost>http://127.0.0.1:2375</dockerHost>-->
+					<dockerHost>unix:///var/run/docker.sock</dockerHost>
+					<verbose>true</verbose>
+					<images>
+						<image>
+							<name>${docker.image.prefix}/${docker.image.name}</name>
+							<build>
+								<dockerFileDir>{project.basedir}/src/main/docker/</dockerFileDir>
+								<!--copies artifacts to docker build dir in target -->
+								<assembly>
+									<descriptorRef>artifact</descriptorRef>
+								</assembly>
+								<dockerFile>Dockerfile</dockerFile>
+								<tags>
+									<tag>latest</tag>
+									<tag>${project.version}</tag>
+								</tags>
+							</build>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
