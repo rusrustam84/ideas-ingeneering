@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/news")
+@RequestMapping("/api/v1/news")
 @RestController
 public class NewsArticleController {
 
@@ -27,7 +27,7 @@ public class NewsArticleController {
   }
 
   @GetMapping(
-      value = "/{id}",
+      value = "article/{id}",
       produces = {"application/json"})
   ResponseEntity<NewsArticleDto> findById(@PathVariable Long id) {
     NewsArticleDto newsArticleDto = newsArticleService.findById(id);
@@ -35,7 +35,7 @@ public class NewsArticleController {
   }
 
   @PostMapping(
-      value = "/save",
+      value = "article/save",
       produces = "application/json",
       consumes = "application/json")
   ResponseEntity<NewsArticleDto> save(@RequestBody NewsArticleDto newsArticleDto) {

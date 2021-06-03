@@ -42,8 +42,7 @@ public class NewsArticleJPAService extends AbstractMapService<NewsArticleDto, Lo
 
   @Override
   public NewsArticleDto findById(Long id) {
-    return newsArticleMapper.entityToDto(newsArticleRepository.findById(id)
-        .orElseGet(null));
+    return newsArticleMapper.entityToDto(newsArticleRepository.findById(id).orElseGet(null));
   }
 
   @Override
