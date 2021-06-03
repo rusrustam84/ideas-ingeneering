@@ -14,4 +14,4 @@ REST-Methods and End-Points:
 DOCKER:
 In order to start docker container of application from terminal:
 
-mvn clean packege docker:build docker:run
+mvn clean package docker:build docker:run
